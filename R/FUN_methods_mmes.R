@@ -81,8 +81,11 @@
   }else if(object$CiMode == 1){
     s2.beta <- rep(NA, length(1:nX))
   }else if(object$CiMode == 2){
+    # Made correction here 2026.11.21 (AO)
+    # VarBeta <- object$Ci[1:nX,1:nX]
+    # s2.beta <- Matrix::diag(VarBeta)
     VarBeta <- object$Ci[1:nX,1:nX]
-    s2.beta <- Matrix::diag(VarBeta)
+    s2.beta <- ifelse(inherits(VarBeta, "numeric"), matrix(VarBeta, 1, 1), Matrix::diag(VarBeta))
   }else{}
   
   if(!inherits(object, "mmes.glmm.laplace")){
